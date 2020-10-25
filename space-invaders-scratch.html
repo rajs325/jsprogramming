@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<canvas id="myCanvas" width="1200" height="1000"></canvas>
+<script>
+var width=1200;
+var wcheck = 550;
+var height=1000;
+var startX = width;
+var startY = 100;
+var direction = 0;
+
+var mindefx = 100;
+var maxdefx = 1000;
+var mindefy = 800;
+var defx = mindefx;
+var defy = mindefy;
+//var defd = 300;
+var defd = 30;
+
+var bltx  = -1;
+var blty  = -1;
+var bltyr = 10;
+
+var canvas = document.getElementById('myCanvas'); 
+var ctx = canvas.getContext('2d'); 
+//ctx.globalAlpha = 0;
+var mountain = new Image();
+mountain.src = "space-bg-001.jpg";   
+
+
+var invader1 = new Image();
+invader1.src = "space-vehicle-001.png";   
+var invader2 = new Image();
+invader2.src = "space-vehicle-002.png";   
+var invader3 = new Image();
+invader3.src = "space-vehicle-003.png";   
+var invader4 = new Image();
+invader4.src = "space-vehicle-004.png";   
+var invader5 = new Image();
+invader5.src = "space-vehicle-005.png";   
+var invader6 = new Image();
+invader6.src = "space-vehicle-006.png";   
+var invader7 = new Image();
+invader7.src = "space-vehicle-002.png";   
+var invader8 = new Image();
+invader8.src = "space-vehicle-003.png";   
+var invader9 = new Image();
+invader9.src = "space-vehicle-004.png";   
+
+var invaders = [invader1, invader2, invader3, invader4, invader5, invader6, invader7, invader8, invader9];
+
+var defender1 = new Image();
+defender1.src = "defender-001.png";   
+
+var bullet1 = new Image();
+bullet1.src = "defender-bullet-001.png";   
+
+var secondsPassed = 0;
+var oldTimeStamp = 0;
+//var movingSpeed = 50;
+//setInterval(animate, 150);
+window.requestAnimationFrame(animate);
+var nrows = 5;
+var ncols = 9;
+
+function animate() {
+    // Calculate how much time has passed
+    //timeStamp = Date.now();
+    //secondsPassed = (timeStamp - oldTimeStamp) / 1000;
+    //oldTimeStamp = timeStamp;
+    //ctx.clearRect(0, 0,  width, height);
+    //ctx.beginPath();
+    //ctx.rect(0, 0, width, height);
+    //ctx.stroke();
+
+    if (startX < 20) {
+      startX = 20;
+      direction = direction === 0 ? 1 : 0;
+    }
+
+    if (startX > (wcheck)) {
+        startX = wcheck;
+        direction = direction === 0 ? 1 : 0;
+    }
+    //ctx.fillStyle = 'red';
+    //ctx.beginPath(); 
+    //ctx.arc(startX, startY, 10, 0 * Math.PI, 2 * Math.PI); 
+    //ctx.fill();
+    ctx.drawImage(mountain, 0, 0, width, height);
+
+    //draw a matrix of invaders arragned in rows and columns
+    for(var row = 0; row < nrows; row++) {
+      for(var col = 0; col < ncols; col++) {
+        ctx.drawImage(invaders[col], startX + (70 * col), startY + (60 * row), 70, 60);
+      }
+    }
+
+    /*ctx.drawImage(invader1, startX, startY, 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 1), startY, 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 2), startY, 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 3), startY, 70, 60);
+    ctx.drawImage(invader5, startX + (70 * 4), startY, 70, 60);
+    ctx.drawImage(invader6, startX + (70 * 5), startY, 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 6), startY, 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 7), startY, 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 8), startY, 70, 60);
+  
+    ctx.drawImage(invader1, startX, startY + (60 * 1), 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 1), startY + (60 * 1), 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 2), startY + (60 * 1), 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 3), startY + (60 * 1), 70, 60);
+    ctx.drawImage(invader5, startX + (70 * 4), startY + (60 * 1), 70, 60);
+    ctx.drawImage(invader6, startX + (70 * 5), startY + (60 * 1), 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 6), startY + (60 * 1), 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 7), startY + (60 * 1), 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 8), startY + (60 * 1), 70, 60);
+
+    ctx.drawImage(invader1, startX, startY + (60 * 2), 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 1), startY + (60 * 2), 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 2), startY + (60 * 2), 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 3), startY + (60 * 2), 70, 60);
+    ctx.drawImage(invader5, startX + (70 * 4), startY + (60 * 2), 70, 60);
+    ctx.drawImage(invader6, startX + (70 * 5), startY + (60 * 2), 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 6), startY + (60 * 2), 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 7), startY + (60 * 2), 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 8), startY + (60 * 2), 70, 60);
+
+    ctx.drawImage(invader1, startX, startY + (60 * 3), 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 1), startY + (60 * 3), 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 2), startY + (60 * 3), 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 3), startY + (60 * 3), 70, 60);
+    ctx.drawImage(invader5, startX + (70 * 4), startY + (60 * 3), 70, 60);
+    ctx.drawImage(invader6, startX + (70 * 5), startY + (60 * 3), 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 6), startY + (60 * 3), 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 7), startY + (60 * 3), 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 8), startY + (60 * 3), 70, 60);
+
+    ctx.drawImage(invader1, startX, startY + (60 * 4), 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 1), startY + (60 * 4), 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 2), startY + (60 * 4), 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 3), startY + (60 * 4), 70, 60);
+    ctx.drawImage(invader5, startX + (70 * 4), startY + (60 * 4), 70, 60);
+    ctx.drawImage(invader6, startX + (70 * 5), startY + (60 * 4), 70, 60);
+    ctx.drawImage(invader2, startX + (70 * 6), startY + (60 * 4), 70, 60);
+    ctx.drawImage(invader3, startX + (70 * 7), startY + (60 * 4), 70, 60);
+    ctx.drawImage(invader4, startX + (70 * 8), startY + (60 * 4), 70, 60);*/
+
+    ctx.drawImage(defender1, defx, defy, 70, 60);
+
+    ctx.drawImage(bullet1, bltx, blty, 20, 30);
+
+    if(direction === 0) {
+        //startX -= 90 * secondsPassed;
+        startX -= 15;
+    } else {
+        //startX += 90 * secondsPassed;
+        startX += 15;
+    }
+
+    blty -= bltyr;
+    bltyr *= 1.2;
+
+    window.requestAnimationFrame(animate);
+}
+window.addEventListener("keyup", function(event) {
+  if (event.defaultPrevented) {
+    return; // Do nothing if event already handled
+  }
+  //defd = 300;
+  defd = 30;
+  // Consume the event so it doesn't get handled twice
+  event.preventDefault();
+}, true);
+window.addEventListener("keydown", function(event) {
+  if (event.defaultPrevented) {
+    return; // Do nothing if event already handled
+  }
+ 
+  switch(event.code) {
+    case "KeyA":
+    case "ArrowLeft":
+      // Handle "turn left"
+      if(defx < mindefx) {
+        defx = mindefx;
+      } else {
+        //defx -= defd * secondsPassed;
+        defx -= defd;
+        //defd *= 1.2;
+      }
+      break;
+    case "KeyD":
+    case "ArrowRight":
+      // Handle "turn right"
+      if(defx > maxdefx) {
+        defx = maxdefx;
+      } else {
+        //defx += defd * secondsPassed;
+        defx += defd;
+        //defd *= 1.2;
+      }
+      break;
+    case "Space":
+      // Handle "turn right"
+      bltx = defx + 25;
+      blty = defy - 25;
+      bltyr = 15;
+      break;
+  }
+ 
+  refresh();
+ 
+  // Consume the event so it doesn't get handled twice
+  event.preventDefault();
+}, true);
+</script>
+</body>
+</html> 

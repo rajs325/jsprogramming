@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<canvas id="myCanvas" width="1200" height="1000"></canvas>
+<script>
+var width=1200;
+var height=1000;
+var startX = width;
+var startY = 100;
+
+var canvas = document.getElementById('myCanvas'); 
+var ctx = canvas.getContext('2d'); 
+//ctx.globalAlpha = 0;
+var moveWoodenBlock = setInterval(animate, 150);
+var mountain = new Image();
+mountain.src = "mountain-bg-001.jpg"   
+var plane = new Image();
+plane.src = "plane-003.png"   
+
+function animate() {
+    ctx.clearRect(0, 0,  width, height);
+    ctx.beginPath();
+    ctx.rect(0, 0, width, height);
+    ctx.stroke();
+    if (startX < 20) {
+      startX = width;
+    }
+    //ctx.fillStyle = 'red';
+    //ctx.beginPath(); 
+    //ctx.arc(startX, startY, 10, 0 * Math.PI, 2 * Math.PI); 
+    //ctx.fill();
+    ctx.drawImage(mountain, 0, 0, width, height);
+    ctx.drawImage(plane, startX, startY, 150, 100);
+    startX -= 15;
+}
+</script>
+</body>
+</html> 
